@@ -9,9 +9,12 @@ use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ProductRouterTest
- *
- * @package BestIt\Frontend\ProductBundle\Tests\Router
+ * Testing of the product router.
+ * @author despendiller <espendiller@bestit-online.de>
+ * @category Tests
+ * @package BestIt\CtProductSlugRouter
+ * @subpackage Router
+ * @version $id$
  */
 class ProductRouterTest extends TestCase
 {

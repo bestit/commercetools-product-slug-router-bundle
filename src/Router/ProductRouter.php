@@ -9,6 +9,13 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Interface ProductRepositoryInterface
+ * @author despendiller <espendiller@bestit-online.de>
+ * @package BestIt\CtProductSlugRouter
+ * @subpackage Router
+ * @version $id$
+ */
 class ProductRouter implements RouterInterface
 {
     /**
