@@ -7,13 +7,13 @@ This router loads a product matching the given request uri to product slugs.
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@bitbucket.org:best-it/commercetools-product-slug-router.git"
+            "url":  "git@bitbucket.org:best-it/commercetools-product-slug-router-bundle.git"
         }
     ]
     
 **Then do:**
 
-    composer require best-it/commercetools-product-slug-router
+    composer require best-it/commercetools-product-slug-router-bundle
 
 ## Requirements
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace BestIt\CtProductSlugRouter\Repository;
+namespace BestIt\CtProductSlugRouterBundle\Repository;
 
-use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
+use BestIt\CtProductSlugRouterBundle\Exception\ProductNotFoundException;
 
 /**
  * Repository to get products with a slug.
  * @author lange <lange@bestit-online.de>
- * @package BestIt\CtProductSlugRouter
+ * @package BestIt\CtProductSlugRouterBundle
  * @subpackage Repository
  * @version $id$
  */
