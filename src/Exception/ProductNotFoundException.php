@@ -1,12 +1,14 @@
 <?php
 
-namespace BestIt\Frontend\ProductBundle\Exception;
+namespace BestIt\CtProductSlugRouter\Exception;
+
+use Exception;
 
 /**
  * Class ProductNotFoundException
  * @package BestIt\CommerceTools\Frontend\Component\Exception\Repository
- * @author Michel Chowanski <info@bestit-online.de>
+ * @author Michel Chowanski <chowanski@bestit-online.de>
  */
-class ProductNotFoundException extends \Exception
+class ProductNotFoundException extends Exception
 {
 }

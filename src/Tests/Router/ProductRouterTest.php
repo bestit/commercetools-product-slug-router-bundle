@@ -1,44 +1,41 @@
 <?php
 
-namespace BestIt\Frontend\ProductBundle\Tests\Router;
+namespace BestIt\CtProductSlugRouter\Tests;
 
-use BestIt\Frontend\ProductBundle\Exception\ProductNotFoundException;
-use BestIt\Frontend\ProductBundle\Model\Product;
-use BestIt\Frontend\ProductBundle\Router\ProductRouter;
+use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
+use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
+use BestIt\CtProductSlugRouter\Router\ProductRouter;
+use DateTime;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ProductRouterTest
  *
  * @package BestIt\Frontend\ProductBundle\Tests\Router
  */
-class ProductRouterTest extends \PHPUnit_Framework_TestCase
+class ProductRouterTest extends TestCase
 {
     /**
-     * Tests if product routing support is false
-     *
-     * @covers \BestIt\Frontend\ProductBundle\Router\ProductRouter::supports
+     * Tests if product routing support is false.
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::supports
      */
     public function testThatSupportsIsFalseAlways()
     {
-        $er = $this->getMockBuilder('BestIt\Frontend\ProductBundle\Repository\ProductRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $er = $this->createMock(ProductRepositoryInterface::class);
 
         $router = new ProductRouter($er);
-        static::assertFalse($router->supports(new \DateTime()));
+        static::assertFalse($router->supports(new DateTime()));
     }
 
     /**
      * Tests if product routers generate function is not supported
      *
-     * @covers \BestIt\Frontend\ProductBundle\Router\ProductRouter::generate
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::generate
      * @expectedException \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
     public function testThatGeneratesIsNotSupported()
     {
-        $er = $this->getMockBuilder('BestIt\Frontend\ProductBundle\Repository\ProductRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $er = $this->createMock(ProductRepositoryInterface::class);
 
         $router = new ProductRouter($er);
         $router->generate('foobar');
@@ -47,15 +44,13 @@ class ProductRouterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests if a product with a slug is providing an url
      *
-     * @covers \BestIt\Frontend\ProductBundle\Router\ProductRouter::match
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::match
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
     public function testProductWithSlugShouldProvideUrl()
     {
-        $er = $this->getMockBuilder('BestIt\Frontend\ProductBundle\Repository\ProductRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $er = $this->createMock(ProductRepositoryInterface::class);
 
         $product = new Product();
         $product->setSlug('/foo');
@@ -86,15 +81,13 @@ class ProductRouterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests if product not found is a resource and not an exception
      *
-     * @covers \BestIt\Frontend\ProductBundle\Router\ProductRouter::match
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::match
      * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
      */
     public function testProductNotFoundShouldBeResourceNotFoundException()
     {
-        $er = $this->getMockBuilder('BestIt\Frontend\ProductBundle\Repository\ProductRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $er = $this->createMock(ProductRepositoryInterface::class);
 
         $product = new Product();
         $product->setSlug('/foo');

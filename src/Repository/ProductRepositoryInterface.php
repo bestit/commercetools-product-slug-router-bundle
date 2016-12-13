@@ -2,13 +2,15 @@
 
 namespace BestIt\CtProductSlugRouter\Repository;
 
+use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
+
 interface ProductRepositoryInterface
 {
     /**
      * Get product by slug
      * @param string $slug
-     * @return Product
+     * @return mixed
      * @throws ProductNotFoundException
      */
-    public function getProductBySlug(string $slug) : Product;
+    public function getProductBySlug(string $slug);
 }

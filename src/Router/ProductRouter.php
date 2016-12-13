@@ -1,11 +1,10 @@
 <?php
 
-namespace BestIt\Frontend\ProductBundle\Router;
+namespace BestIt\CtProductSlugRouter\Router;
 
 use BestIt\Core\CoreBundle\Router\RouterInterface;
+use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
 use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
-use BestIt\Frontend\ProductBundle\Exception\ProductNotFoundException;
-use BestIt\Frontend\ProductBundle\Repository\ProductRepository;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

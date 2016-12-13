@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "psr-4": {
+            "BestIt\\CtProductSlugRouter\\": "src/"
+        }
+    },
     "name": "bestit/commercetools-product-slug-router",
     "description": "A cmf router matching the slug to a found commercetools slug.",
     "require": {
@@ -15,6 +20,14 @@
         {
             "name": "Daniel Espendiller",
             "email": "espendiller@bestit-online.de"
+        },
+        {
+            "name": "Michel Chowanski",
+            "email": "chowanski@bestit-online.de"
+        },
+        {
+            "name": "Björn Lange",
+            "email": "lange@bestit-online.de"
         }
     ],
     "minimum-stability": "stable"
