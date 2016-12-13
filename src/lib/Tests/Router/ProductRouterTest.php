@@ -1,10 +1,10 @@
 <?php
 
-namespace BestIt\CtProductSlugRouterBundle\Tests;
+namespace BestIt\CtProductSlugRouter\Tests;
 
-use BestIt\CtProductSlugRouterBundle\Exception\ProductNotFoundException;
-use BestIt\CtProductSlugRouterBundle\Repository\ProductRepositoryInterface;
-use BestIt\CtProductSlugRouterBundle\Router\ProductRouter;
+use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
+use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
+use BestIt\CtProductSlugRouter\Router\ProductRouter;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * Testing of the product router.
  * @author despendiller <espendiller@bestit-online.de>
  * @category Tests
- * @package BestIt\CtProductSlugRouterBundle
+ * @package BestIt\CtProductSlugRouter
  * @subpackage Router
  * @version $id$
  */
@@ -20,7 +20,7 @@ class ProductRouterTest extends TestCase
 {
     /**
      * Tests if product routing support is false.
-     * @covers \BestIt\CtProductSlugRouterBundle\Router\ProductRouter::supports
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::supports
      */
     public function testThatSupportsIsFalseAlways()
     {
@@ -33,7 +33,7 @@ class ProductRouterTest extends TestCase
     /**
      * Tests if product routers generate function is not supported
      *
-     * @covers \BestIt\CtProductSlugRouterBundle\Router\ProductRouter::generate
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::generate
      * @expectedException \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
     public function testThatGeneratesIsNotSupported()
@@ -47,7 +47,7 @@ class ProductRouterTest extends TestCase
     /**
      * Tests if a product with a slug is providing an url
      *
-     * @covers \BestIt\CtProductSlugRouterBundle\Router\ProductRouter::match
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::match
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
@@ -84,7 +84,7 @@ class ProductRouterTest extends TestCase
     /**
      * Tests if product not found is a resource and not an exception
      *
-     * @covers \BestIt\CtProductSlugRouterBundle\Router\ProductRouter::match
+     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::match
      * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
      */

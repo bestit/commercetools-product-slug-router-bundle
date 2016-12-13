@@ -13,7 +13,7 @@ This router loads a product matching the given request uri to product slugs.
     
 **Then do:**
 
-    composer require best-it/commercetools-product-slug-router-bundle
+    composer require bestit/commercetools-product-slug-router-bundle
 
 ## Requirements
 

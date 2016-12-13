@@ -1,10 +1,11 @@
 {
     "autoload": {
         "psr-4": {
-            "BestIt\\CtProductSlugRouterBundle\\": "src/"
+            "BestIt\\CtProductSlugRouter\\": "src/lib/",
+            "BestIt\\CtProductSlugRouterBundle\\": "src/Bundle/"
         }
     },
-    "name": "best-it/commercetools-product-slug-router-bundle",
+    "name": "bestit/commercetools-product-slug-router-bundle",
     "description": "A cmf router matching the slug to a found commercetools slug.",
     "require": {
         "php": "^7.0",

@@ -1,13 +1,13 @@
 <?php
 
-namespace BestIt\CtProductSlugRouterBundle\Exception;
+namespace BestIt\CtProductSlugRouter\Exception;
 
 use Exception;
 
 /**
  * Exception for not finding products.
  * @author Michel Chowanski <chowanski@bestit-online.de>
- * @package BestIt\CtProductSlugRouterBundle
+ * @package BestIt\CtProductSlugRouter
  * @subpackage Exception
  * @version $id$
  */
