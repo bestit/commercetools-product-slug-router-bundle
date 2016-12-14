@@ -1,0 +1,10 @@
+services:
+    best_it.ct_product_slug_router.router:
+        class: BestIt\CtProductSlugRouter\Router\ProductRouter
+        arguments:
+            - '@best_it.ct_product_slug_router.product_repository'
+            - '%best_it.ct_product_slug_router.controller%'
+            - '%best_it.ct_product_slug_router.route%'
+        tags:
+            - { name: router, priority: '%best_it.ct_product_slug_router.priority%' }
+
