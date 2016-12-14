@@ -16,8 +16,9 @@ interface ProductRepositoryInterface
     /**
      * Get product by slug
      * @param string $slug
+     * @param bool $exceptionOnMiss Should an exception be thrown if the product is not found.
      * @return mixed
      * @throws ProductNotFoundException
      */
-    public function getProductBySlug(string $slug);
+    public function getProductBySlug(string $slug, bool $exceptionOnMiss = true);
 }
