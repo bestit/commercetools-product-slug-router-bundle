@@ -35,7 +35,10 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue(0)
                 ->end()
                 ->scalarNode('repository')
-                    ->info('Service id for the repositry loading products with their slug.')
+                    ->info(
+                        'Service id for the repository loading products with their slug. You should fulfill the ' .
+                        'provided interface.'
+                    )
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('route')

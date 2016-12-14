@@ -27,7 +27,7 @@ best_it_ct_product_slug_router:
     # Which priority has this router in the cmf chaining?
     priority:             0
 
-    # Service id for the repositry loading products with their slug.
+    # Service id for the repositry loading products with their slug. You should fulfill the provided interface.
     repository:           ~
 
     # Which route name is used for a positive match?
