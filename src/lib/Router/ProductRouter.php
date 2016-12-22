@@ -163,7 +163,7 @@ class ProductRouter implements RouterInterface
     public function match($pathInfo): array
     {
         try {
-            $product = $this->getRepository()->getProductBySlug(trim($pathInfo, '/'), false);
+            $product = $this->getRepository()->getProductBySlug(trim($pathInfo, '/'));
         } catch (ProductNotFoundException $e) {
             throw new ResourceNotFoundException('Not product found for slug ' . $pathInfo);
         }
