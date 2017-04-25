@@ -1,0 +1,161 @@
+{
+  "id": "290bb642-dac2-4800-87ba-a0d1fb71cf45",
+  "version": 11,
+  "productType": {
+    "typeId": "product-type",
+    "id": "341974de-f61a-477d-b65d-2b58a69c576c"
+  },
+  "name": {
+    "de": "04000119 24er Bl.Alkaline"
+  },
+  "categories": [
+    {
+      "typeId": "category",
+      "id": "52d20122-3690-4f7d-a883-637d6ac489bd"
+    }
+  ],
+  "categoryOrderHints": {},
+  "slug": {
+    "de": "073554_04000119_24er_bl_alkaline"
+  },
+  "masterVariant": {
+    "id": 1,
+    "sku": "073554",
+    "prices": [
+      {
+        "value": {
+          "currencyCode": "EUR",
+          "centAmount": 199
+        },
+        "id": "0567a9a3-d7b7-4e64-872e-533426e86555",
+        "custom": {
+          "type": {
+            "typeId": "type",
+            "id": "cbd48a32-ed94-4bc1-a9d7-a1e98362f4b9"
+          },
+          "fields": {
+            "additionalPriceData": "{\"Skonto\":{\"MNT13\":\"Skonto\",\"MNP13\":\"3,00\",\"MNW13\":\"0,06\"},\"Br\\u00f6mmelhaupt-Bonus\":{\"MNT16\":\"Br\\u00f6mmelhaupt-Bonus\",\"MNP16\":\"4,00\",\"MNW16\":\"0,08\"}}",
+            "bestPrice": {
+              "currencyCode": "EUR",
+              "centAmount": 185
+            },
+            "isDefaultPrice": true,
+            "lastImportDate": "2017-02-17T10:03:22+00:00"
+          }
+        }
+      }
+    ],
+    "images": [],
+    "attributes": [
+      {
+        "name": "manufacturer",
+        "value": "Heitech"
+      },
+      {
+        "name": "manufacturerId",
+        "value": "04700"
+      },
+      {
+        "name": "waresKeyNo",
+        "value": 1
+      },
+      {
+        "name": "waresKeyName",
+        "value": "Lagerware normal"
+      },
+      {
+        "name": "packageUnit",
+        "value": 1
+      },
+      {
+        "name": "color",
+        "value": ""
+      },
+      {
+        "name": "partCodeNo",
+        "value": 500130
+      },
+      {
+        "name": "wareGroups",
+        "value": [
+          "Zubehör/Allgemeines Zubehör/Batterien"
+        ]
+      },
+      {
+        "name": "gtin",
+        "value": "4250040901195"
+      },
+      {
+        "name": "length",
+        "value": 0.22
+      },
+      {
+        "name": "width",
+        "value": 0.13
+      },
+      {
+        "name": "height",
+        "value": 0.007
+      },
+      {
+        "name": "volume",
+        "value": 0.0002
+      },
+      {
+        "name": "weight",
+        "value": 0.04
+      },
+      {
+        "name": "forPromotion",
+        "value": {
+          "label": "-",
+          "key": "NONE"
+        }
+      },
+      {
+        "name": "distribution",
+        "value": 0
+      },
+      {
+        "name": "bonus",
+        "value": 2
+      },
+      {
+        "name": "successionArticle",
+        "value": 0
+      },
+      {
+        "name": "deliveryDate",
+        "value": "2017-03-31"
+      }
+    ],
+    "assets": [],
+    "availability": {
+      "channels": {
+        "306b6aba-e379-4606-946b-50db67c04c5f": {
+          "isOnStock": true,
+          "availableQuantity": 8
+        },
+        "ad9a019f-193c-47b5-b569-5e81c9e2b99c": {
+          "isOnStock": false,
+          "availableQuantity": 0
+        },
+        "f5bee2ab-3766-4160-982c-1908a837d45b": {
+          "isOnStock": false,
+          "availableQuantity": 0
+        }
+      }
+    }
+  },
+  "variants": [],
+  "searchKeywords": {},
+  "hasStagedChanges": false,
+  "published": true,
+  "key": "073554",
+  "taxCategory": {
+    "typeId": "tax-category",
+    "id": "d6aa1017-21af-4f5e-8211-922cb3033afb"
+  },
+  "createdAt": "2017-02-14T13:11:58.597Z",
+  "lastModifiedAt": "2017-03-31T08:51:39.791Z"
+}

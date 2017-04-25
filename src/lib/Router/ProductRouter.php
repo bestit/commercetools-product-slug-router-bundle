@@ -4,10 +4,10 @@ namespace BestIt\CtProductSlugRouter\Router;
 
 use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
 use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Commercetools\Core\Model\Product\ProductProjection;
+use InvalidArgumentException;
+use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RequestContext;
@@ -21,7 +21,7 @@ use Symfony\Component\Routing\RouterInterface;
  * @subpackage Router
  * @version $id$
  */
-class ProductRouter implements RouterInterface
+class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 {
     /**
      * The default controller.
@@ -54,6 +54,12 @@ class ProductRouter implements RouterInterface
     private $route = '';
 
     /**
+     * The request context
+     * @var RequestContext
+     */
+    private $context;
+
+    /**
      * ProductRouter constructor.
      * @param ProductRepositoryInterface $repository
      * @param string $controller
@@ -71,34 +77,68 @@ class ProductRouter implements RouterInterface
     }
 
     /**
-     * Generates a URL or path for a specific route based on the given parameters.
-     *
-     * Parameters that reference placeholders in the route pattern will substitute them in the
-     * path or host. Extra params are added as query string to the URL.
-     *
-     * When the passed reference type cannot be generated for the route because it requires a different
-     * host or scheme than the current one, the method will return a more comprehensive reference
-     * that includes the required params. For example, when you call this method with $referenceType = ABSOLUTE_PATH
-     * but the route requires the https scheme whereas the current scheme is http, it will instead return an
-     * ABSOLUTE_URL with the https scheme and the current host. This makes sure the generated URL matches
-     * the route in any case.
-     *
-     * If there is no route with the given name, the generator must throw the RouteNotFoundException.
-     *
-     * @param string $name The name of the route
-     * @param mixed $parameters An array of parameters
-     * @param int $referenceType The type of reference to be generated (one of the constants)
-     *
-     * @return string The generated URL
-     * @todo Implement.
-     * @throws RouteNotFoundException              If the named route doesn't exist
-     * @throws MissingMandatoryParametersException When some parameters are missing that are mandatory for the route
-     * @throws InvalidParameterException           When a parameter value for a placeholder is not correct because
-     *                                             it does not match the requirement
+     * @inheritdoc
      */
-    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
-        throw new RouteNotFoundException('Not supported by ProductRouter');
+        if ($referenceType != self::ABSOLUTE_PATH) {
+            throw new RouteNotFoundException('Only `absolute path` is allowed for product route generation');
+        }
+
+        if (is_string($name)) {
+            $slug = $this->getSlugByName($name, $parameters);
+        } else {
+            $slug = $this->getSlugByObject($name);
+        }
+
+        if (!$slug) {
+            throw new RouteNotFoundException('Not product found for route ' . (string)$name);
+        }
+
+        $url = sprintf('%s/%s', $this->getContext()->getBaseUrl(), $slug);
+        if ($query = http_build_query($parameters)) {
+            $url .= sprintf('?%s', $query);
+        }
+
+        return $url;
+    }
+
+    /**
+     * Get product slug by name
+     * @param string $name
+     * @param array $params
+     * @return string|null
+     */
+    private function getSlugByName(string $name, array &$params)
+    {
+        $slug = null;
+
+        if ($name === $this->getRoute()) {
+            if (array_key_exists('slug', $params)) {
+                $slug = $params['slug'];
+                unset($params['slug']); // we do not want to add this to query
+            } else {
+                throw new InvalidArgumentException('Missing param `slug` for product route generation');
+            }
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Get product slug by object
+     * @param $object
+     * @return null|string
+     */
+    private function getSlugByObject($object)
+    {
+        $slug = null;
+
+        if ($object instanceof ProductProjection) {
+            $slug = ($value = $object->getSlug()) ? $value->getLocalized() : null;
+        }
+
+        return $slug;
     }
 
     /**
@@ -145,6 +185,14 @@ class ProductRouter implements RouterInterface
     public function getRouteCollection(): RouteCollection
     {
         return new RouteCollection();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRouteDebugMessage($name, array $parameters = [])
+    {
+        return (string)$name;
     }
 
     /**
@@ -218,5 +266,13 @@ class ProductRouter implements RouterInterface
     {
         $this->route = $route;
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function supports($name)
+    {
+        return $name instanceof ProductProjection || $name == $this->getRoute();
     }
 }
