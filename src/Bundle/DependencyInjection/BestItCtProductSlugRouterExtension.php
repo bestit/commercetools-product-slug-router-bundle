@@ -10,9 +10,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 /**
  * Loads the config for the bundle.
  * @author lange <lange@bestit-online.de>
- * @package BestIt\CtProductSlugRouterBundle
- * @subpackage DependencyInjection
- * @version $id$
+ * @package BestIt\CtProductSlugRouterBundle\DependencyInjection
  */
 class BestItCtProductSlugRouterExtension extends Extension
 {

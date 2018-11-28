@@ -11,23 +11,25 @@ use Commercetools\Core\Model\Product\ProductProjection;
 use DateTime;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
 /**
  * Testing of the product router.
+ *
  * @author despendiller <espendiller@bestit-online.de>
  * @category Tests
- * @package BestIt\CtProductSlugRouter
- * @subpackage Router
- * @version $id$
+ * @package BestIt\CtProductSlugRouter\Tests
  */
 class ProductRouterTest extends TestCase
 {
     /**
      * Tests if product routing support is false.
-     * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::supports
+     *
+     * @return void
      */
     public function testThatSupportsIsFalseAlways()
     {
@@ -41,8 +43,11 @@ class ProductRouterTest extends TestCase
      * Tests if a product with a slug is providing an url
      *
      * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::match
-     * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
-     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
+     *
+     * @throws MethodNotAllowedException
+     * @throws ResourceNotFoundException
+     *
+     * @return void
      */
     public function testProductWithSlugShouldProvideUrl()
     {
@@ -79,7 +84,9 @@ class ProductRouterTest extends TestCase
      *
      * @covers \BestIt\CtProductSlugRouter\Router\ProductRouter::match
      * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
-     * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
+     * @throws MethodNotAllowedException
+     *
+     * @return void
      */
     public function testProductNotFoundShouldBeResourceNotFoundException()
     {
@@ -94,7 +101,9 @@ class ProductRouterTest extends TestCase
 
     /**
      * Returns a decoded product fixture
+     *
      * @param string $filename
+     *
      * @return ProductProjection
      */
     private function getProductFixture(string $filename)
@@ -107,7 +116,9 @@ class ProductRouterTest extends TestCase
 
     /**
      * Returns the fixture
+     *
      * @param string $filename
+     *
      * @return string
      */
     private function getFixture(string $filename)

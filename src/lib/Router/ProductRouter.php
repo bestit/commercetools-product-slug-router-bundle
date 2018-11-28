@@ -16,51 +16,57 @@ use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Interface ProductRepositoryInterface
+ *
  * @author despendiller <espendiller@bestit-online.de>
- * @package BestIt\CtProductSlugRouter
- * @subpackage Router
- * @version $id$
+ * @package BestIt\CtProductSlugRouter\Router
  */
 class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 {
     /**
      * The default controller.
+     *
      * @var string
      */
     const DEFAULT_CONTROLLER = 'BestIt\Frontend\ProductBundle\Controller\DetailController::indexAction';
 
     /**
      * The default route.
+     *
      * @var string
      */
     const DEFAULT_ROUTE = 'best_it_frontend_product_detail_index';
 
     /**
-     * The logical/full name for the used controller.
+     * The logical/full name for the used controller
+     *
      * @var string
      */
     private $controller = '';
 
     /**
      * The repository to fetch products by slug.
+     *
      * @var ProductRepositoryInterface
      */
     private $repository;
 
     /**
      * The used route name for this router.
+     *
      * @var string
      */
     private $route = '';
 
     /**
      * The request context
+     *
      * @var RequestContext
      */
     private $context;
 
     /**
      * ProductRouter constructor.
+     *
      * @param ProductRepositoryInterface $repository
      * @param string $controller
      * @param string $route
@@ -68,7 +74,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     public function __construct(
         ProductRepositoryInterface $repository,
         string $controller = self::DEFAULT_CONTROLLER,
-        $route = self::DEFAULT_ROUTE
+        string $route = self::DEFAULT_ROUTE
     ) {
         $this
             ->setController($controller)
@@ -77,7 +83,15 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * Generates a url for the given parameters.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     *
+     * @param string $name
+     * @param array $parameters
+     * @param int $referenceType
+     *
+     * @return string
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
@@ -92,7 +106,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
         }
 
         if (!$slug) {
-            throw new RouteNotFoundException('Not product found for route ' . (string)$name);
+            throw new RouteNotFoundException('Not product found for route ' . (string) $name);
         }
 
         $url = sprintf('%s/%s', $this->getContext()->getBaseUrl(), $slug);
@@ -104,9 +118,11 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     }
 
     /**
-     * Get product slug by name
+     * Get product slug by name.
+     *
      * @param string $name
      * @param array $params
+     *
      * @return string|null
      */
     private function getSlugByName(string $name, array &$params)
@@ -126,8 +142,12 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     }
 
     /**
-     * Get product slug by object
-     * @param $object
+     * Get product slug by object.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     *
+     * @param mixed $object
+     *
      * @return null|string
      */
     private function getSlugByObject($object)
@@ -143,6 +163,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Gets the request context.
+     *
      * @return RequestContext The context
      */
     public function getContext(): RequestContext
@@ -152,6 +173,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Returns the logical/full name for the used controller.
+     *
      * @return string
      */
     private function getController(): string
@@ -161,6 +183,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Returns the repository to fetch products by slug.
+     *
      * @return ProductRepositoryInterface
      */
     private function getRepository(): ProductRepositoryInterface
@@ -170,6 +193,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Returns the used route name for this router.
+     *
      * @return string
      */
     private function getRoute(): string
@@ -179,8 +203,10 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Gets the RouteCollection instance associated with this Router.
-     * @return RouteCollection A RouteCollection instance
+     *
      * @todo Implement.
+     *
+     * @return RouteCollection A RouteCollection instance
      */
     public function getRouteCollection(): RouteCollection
     {
@@ -188,11 +214,16 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * Returns the route debug message.
+     *
+     * @param mixed $name
+     * @param array $parameters
+     *
+     * @return string
      */
     public function getRouteDebugMessage($name, array $parameters = [])
     {
-        return (string)$name;
+        return (string) $name;
     }
 
     /**
@@ -201,12 +232,14 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
      * If the matcher can not find information, it must throw one of the exceptions documented
      * below.
      *
-     * @param string $pathinfo The path info to be parsed (raw format, i.e. not urldecoded)
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      *
-     * @return array An array of parameters
+     * @param string $pathInfo The path info to be parsed (raw format, i.e. not urldecoded)
      *
      * @throws ResourceNotFoundException If the resource could not be found
      * @throws MethodNotAllowedException If the resource was found but the request method is not allowed
+     *
+     * @return array An array of parameters
      */
     public function match($pathInfo): array
     {
@@ -225,7 +258,9 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Sets the request context.
+     *
      * @param RequestContext $context The context
+     *
      * @return ProductRouter
      */
     public function setContext(RequestContext $context): ProductRouter
@@ -237,7 +272,9 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Sets the logical/full name for the used controller.
+     *
      * @param string $controller
+     *
      * @return ProductRouter
      */
     private function setController(string $controller): ProductRouter
@@ -248,7 +285,9 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Sets the repository to fetch products by slug.
+     *
      * @param ProductRepositoryInterface $repository
+     *
      * @return ProductRouter
      */
     private function setRepository(ProductRepositoryInterface $repository): ProductRouter
@@ -259,7 +298,9 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
 
     /**
      * Sets the used route name for this router.
+     *
      * @param string $route
+     *
      * @return ProductRouter
      */
     private function setRoute(string $route): ProductRouter
@@ -269,7 +310,11 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * Does this router support the given object?
+     *
+     * @param mixed $name
+     *
+     * @return bool
      */
     public function supports($name)
     {

@@ -9,9 +9,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * Configuration class for this bundle.
  * @author blange <lange@bestit-online.de>
- * @package BestIt\CtProductSlugRouterBundle
- * @subpackage DependencyInjection
- * @version $id$
+ * @package BestIt\CtProductSlugRouterBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {
