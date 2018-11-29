@@ -2,6 +2,7 @@
 
 namespace BestIt\CtProductSlugRouter\Tests;
 
+use BestIt\CtProductSlugRouter\Exception\ForbiddenCharsException;
 use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
 use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
 use BestIt\CtProductSlugRouter\Router\ProductRouter;
@@ -312,5 +313,21 @@ class ProductRouterTest extends TestCase
 
         $router = new ProductRouter($repository);
         $router->generate('foobar');
+    }
+
+    /**
+     * Check if the parameter contains special characters
+     *
+     * @return void
+     */
+    public function testMatchFailedWithForbiddenCharsException()
+    {
+        $repository = $this->createMock(ProductRepositoryInterface::class);
+        $router = new ProductRouter($repository);
+        $router->setContext(new RequestContext());
+
+        $this->expectException(ForbiddenCharsException::class);
+
+        $router->match('!"§');
     }
 }

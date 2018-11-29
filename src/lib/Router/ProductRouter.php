@@ -2,6 +2,7 @@
 
 namespace BestIt\CtProductSlugRouter\Router;
 
+use BestIt\CtProductSlugRouter\Exception\ForbiddenCharsException;
 use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
 use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
 use Commercetools\Core\Model\Product\ProductProjection;
@@ -35,6 +36,13 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
      * @var string
      */
     const DEFAULT_ROUTE = 'best_it_frontend_product_detail_index';
+
+    /**
+     * Any character not included in this expression is considered a forbidden character.
+     *
+     * @var string
+     */
+    const FORBIDDEN_CHARS_REGEX = '/[^-a-zA-Z0-9_\/]/';
 
     /**
      * The logical/full name for the used controller
@@ -236,6 +244,7 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
      *
      * @param string $pathInfo The path info to be parsed (raw format, i.e. not urldecoded)
      *
+     * @throws ForbiddenCharsException If pathInfo contains special characters
      * @throws ResourceNotFoundException If the resource could not be found
      * @throws MethodNotAllowedException If the resource was found but the request method is not allowed
      *
@@ -244,6 +253,10 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
     public function match($pathInfo): array
     {
         try {
+            if (preg_match(self::FORBIDDEN_CHARS_REGEX, $pathInfo)) {
+                throw new ForbiddenCharsException($pathInfo . ' is not allowed to have special characters!');
+            }
+
             $product = $this->getRepository()->getProductBySlug(trim($pathInfo, '/'));
         } catch (ProductNotFoundException $e) {
             throw new ResourceNotFoundException('Not product found for slug ' . $pathInfo);
