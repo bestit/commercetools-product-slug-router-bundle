@@ -7,6 +7,9 @@ use BestIt\CtProductSlugRouter\Exception\ProductNotFoundException;
 use BestIt\CtProductSlugRouter\Repository\ProductRepositoryInterface;
 use Commercetools\Core\Model\Product\ProductProjection;
 use InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -14,6 +17,8 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
+use function get_class;
+use function json_encode;
 
 /**
  * Interface ProductRepositoryInterface
@@ -21,8 +26,10 @@ use Symfony\Component\Routing\RouterInterface;
  * @author despendiller <espendiller@bestit-online.de>
  * @package BestIt\CtProductSlugRouter\Router
  */
-class ProductRouter implements RouterInterface, VersatileGeneratorInterface
+class ProductRouter implements LoggerAwareInterface, RouterInterface, VersatileGeneratorInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * The default controller.
      *
@@ -43,34 +50,30 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
      * @var string
      */
     const FORBIDDEN_CHARS_REGEX = '/[^-a-zA-Z0-9_\/]/';
-
-    /**
-     * The logical/full name for the used controller
-     *
-     * @var string
-     */
-    private $controller = '';
-
-    /**
-     * The repository to fetch products by slug.
-     *
-     * @var ProductRepositoryInterface
-     */
-    private $repository;
-
-    /**
-     * The used route name for this router.
-     *
-     * @var string
-     */
-    private $route = '';
-
     /**
      * The request context
      *
      * @var RequestContext
      */
     private $context;
+    /**
+     * The logical/full name for the used controller
+     *
+     * @var string
+     */
+    private $controller = '';
+    /**
+     * The repository to fetch products by slug.
+     *
+     * @var ProductRepositoryInterface
+     */
+    private $repository;
+    /**
+     * The used route name for this router.
+     *
+     * @var string
+     */
+    private $route = '';
 
     /**
      * ProductRouter constructor.
@@ -88,6 +91,8 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
             ->setController($controller)
             ->setRepository($repository)
             ->setRoute($route);
+
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -123,50 +128,6 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
         }
 
         return $url;
-    }
-
-    /**
-     * Get product slug by name.
-     *
-     * @param string $name
-     * @param array $params
-     *
-     * @return string|null
-     */
-    private function getSlugByName(string $name, array &$params)
-    {
-        $slug = null;
-
-        if ($name === $this->getRoute()) {
-            if (array_key_exists('slug', $params)) {
-                $slug = $params['slug'];
-                unset($params['slug']); // we do not want to add this to query
-            } else {
-                throw new InvalidArgumentException('Missing param `slug` for product route generation');
-            }
-        }
-
-        return $slug;
-    }
-
-    /**
-     * Get product slug by object.
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-     *
-     * @param mixed $object
-     *
-     * @return null|string
-     */
-    private function getSlugByObject($object)
-    {
-        $slug = null;
-
-        if ($object instanceof ProductProjection) {
-            $slug = ($value = $object->getSlug()) ? $value->getLocalized() : null;
-        }
-
-        return $slug;
     }
 
     /**
@@ -231,7 +192,76 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
      */
     public function getRouteDebugMessage($name, array $parameters = [])
     {
-        return (string) $name;
+        return sprintf(
+            '%s:%s(%s)',
+            get_class($this),
+            $this->isValidObject($name) ? $name->getId() : $name,
+            json_encode($parameters)
+        );
+    }
+
+    /**
+     * Get product slug by name.
+     *
+     * @param string $name
+     * @param array $params
+     *
+     * @return string|null
+     */
+    private function getSlugByName(string $name, array &$params)
+    {
+        $slug = null;
+
+        if ($name === $this->getRoute()) {
+            if (array_key_exists('slug', $params)) {
+                $slug = $params['slug'];
+                unset($params['slug']); // we do not want to add this to query
+            } else {
+                $this->logger->critical(
+                    'Missing param `slug` for product route generation.',
+                    [
+                        'name' => $name,
+                        'params' => $params
+                    ]
+                );
+
+                throw new InvalidArgumentException('Missing param `slug` for product route generation.');
+            }
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Get product slug by object.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     *
+     * @param mixed $object
+     *
+     * @return null|string
+     */
+    private function getSlugByObject($object)
+    {
+        $slug = null;
+
+        if ($object instanceof ProductProjection) {
+            $slug = ($value = $object->getSlug()) ? $value->getLocalized() : null;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Is the parameter a usable object?
+     *
+     * @param string|ProductProjection $name
+     *
+     * @return bool
+     */
+    private function isValidObject($name): bool
+    {
+        return $name instanceof ProductProjection;
     }
 
     /**
@@ -331,6 +361,6 @@ class ProductRouter implements RouterInterface, VersatileGeneratorInterface
      */
     public function supports($name)
     {
-        return $name instanceof ProductProjection || $name == $this->getRoute();
+        return $this->isValidObject($name) || $name == $this->getRoute();
     }
 }
