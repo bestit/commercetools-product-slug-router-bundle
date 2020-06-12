@@ -1,6 +1,6 @@
 # Router for product slugs in a commercetools project
 
-This router loads a product matching the given request uri to product slugs. It utilizes the cmf routing package heavily and registers the provided product router as a chained cmf router through the service tag "_router_".
+This router loads a product matching the given  request uri to product slugs. It utilizes the cmf routing package heavily and registers the provided product router as a chained cmf router through the service tag "_router_".
 
 ## Installation
 
